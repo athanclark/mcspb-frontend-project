@@ -39,7 +39,8 @@ $(document).ready(function() {
             };
             const url = 'https://nominatim.openstreetmap.org/reverse';
             $.get(addParamsToURL(url, params), function receivedAddress(address) {
-                $('#nearest-address').empty().append($('<p></p>').text(address.display_name));
+                const addr = address.display_name || 'No Address Found';
+                $('#nearest-address').empty().append($('<p></p>').text(addr));
             });
         })();
         (() => {
@@ -59,12 +60,46 @@ $(document).ready(function() {
                                 .addClass('card-content').append([
                                     $('<p></p>').text(x.date),
                                     $('<p></p>').text(x.weather),
-                                    $('<p></p>').text(`Min: ${cToF(x.temp2m.min)}° F, Max: ${cToF(x.temp2m.max)}° F`),
+                                    $('<p></p>').text(`Min: ${cToF(x.temp2m.min).toFixed(1)}° F, Max: ${cToF(x.temp2m.max).toFixed(1)}° F`),
                                     $('<p></p>').text(`Wind Speed: ${windSpeed(x.wind10m_max)}`)
                                 ])
                         );
                 });
                 $('#weather').empty().append(cards);
+            });
+        })();
+        (() => {
+            const params = {
+                lat: latlng.lat,
+                lon: latlng.lng
+            };
+            const url = 'https://api.sunrise-sunset.org/json';
+            $.get(addParamsToURL(url, params), function receivedSolarData(solarData) {
+                console.log(solarData);
+                $('#solar-data').empty().append([
+                    $('<p></p>')
+                        .addClass('block')
+                        .text(`Sunrise: ${solarData.results.sunrise}, Sunset: ${solarData.results.sunset}`),
+                    $('<p></p>')
+                        .addClass('block')
+                        .text(`Solar Noon: ${solarData.results.solar_noon}, Day Length: ${solarData.results.day_length}`),
+                    $('<table></table>').addClass('table').append([
+                        $('<thead></thead>').append($('<tr></tr>').append([
+                            $('<th></th>').text('Type of Twilight'),
+                            $('<th></th>').text('Begin'),
+                            $('<th></th>').text('End')
+                        ])),
+                        $('<tbody></tbody>').append(
+                            ['astronomical','nautical','civil'].map((type) =>
+                                $('<tr></tr>').append([
+                                    $('<td></td>').text(type),
+                                    $('<td></td>').text(solarData.results[`${type}_twilight_begin`]),
+                                    $('<td></td>').text(solarData.results[`${type}_twilight_end`]),
+                                ])
+                            )
+                        )
+                    ])
+                ]);
             });
         })();
     }
@@ -107,4 +142,29 @@ function windSpeed(x) {
     default:
         throw new Error('Invalid Wind Speed', x);
     }
+}
+
+function mkIsWithinModularDistance(max) {
+    // is y <= x + distance && x - distance >= y?
+    return function isWithinDistanceOf(distance, x, y) {
+        const x_abs = x + (max / 2);
+        const y_abs = y + (max / 2);
+        const max = x + distance > max ? (x_abs + distance) - max : x_abs + distance;
+        const min = x - distance < 0 ? max + (x_abs - distance) : x_abs - distance;
+        return min < max
+            // the case where y has to be inside the interval [min,max]
+            ? min <= y_abs && y_abs <= max
+            // the case where y has to be outside the interval [max,min]
+            : min <= y_abs || y_abs <= max;
+    };
+}
+
+
+// {lat, lng} -> {lat, lng} -> bool
+function latLongIsWithinRange(reference, subject) {
+    const variance = 10.0; // "diameter"
+    const latIsWithinDistanceOf = mkIsWithinModularDistance(180);
+    const longIsWithinDistanceOf = mkIsWithinModularDistance(360);
+    return latIsWithinDistanceOf(variance / 2, reference.lat, subject.lat)
+        && longIsWithinDistanceOf(variance / 2, reference.lng, subject.lng);
 }

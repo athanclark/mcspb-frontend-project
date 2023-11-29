@@ -18,8 +18,16 @@
                 <p class="subtitle">
                     Find information about your location!
                 </p>
+                <div class="field has-addons">
+                    <div class="control">
+                        <input type="text" placeholder="Search" id="search" class="input" />
+                    </div>
+                    <div class="control">
+                        <button id="submit" class="button is-info">Submit</button>
+                    </div>
+                </div>
                 <div id="map"></div>
-                <h2 class="title">Results</h2>
+                <h2 class="title block">Results</h2>
                 <div id="results">
                     <div class="card">
                         <header class="card-header">
@@ -38,6 +46,16 @@
                             </p>
                         </header>
                         <div class="card-content" id="weather">
+                            <em>Loading...</em>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Sunrise / Sunset
+                            </p>
+                        </header>
+                        <div class="card-content" id="solar-data">
                             <em>Loading...</em>
                         </div>
                     </div>

@@ -2,6 +2,12 @@
     aspect-ratio: 16 / 9;
 }
 
+.card {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 #weather > .card {
     display: inline-block;
+    margin: 1em;
 }
