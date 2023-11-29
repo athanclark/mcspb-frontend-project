@@ -8,10 +8,14 @@ $(document).ready(function() {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    Geolocation.getCurrentPosition(function positionReceived(p) {
-        const latlng = L.latLng(p.coords.latitude, p.coords.longitude);
-        map.panTo(latlng);
-    });
+    try {
+        Geolocation.getCurrentPosition(function positionReceived(p) {
+            const latlng = L.latLng(p.coords.latitude, p.coords.longitude);
+            map.panTo(latlng);
+        });
+    } catch (e) {
+        console.log('Geolocation failed - not running in SSL?', e);
+    }
 
 
     const popup = L.popup();
