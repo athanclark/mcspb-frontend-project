@@ -1,3 +1,7 @@
 #map {
     aspect-ratio: 16 / 9;
 }
+
+#weather > .card {
+    display: inline-block;
+}
