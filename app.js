@@ -9,12 +9,12 @@ $(document).ready(function() {
     }).addTo(map);
 
     try {
-        Geolocation.getCurrentPosition(function positionReceived(p) {
+        navigator.geolocation.getCurrentPosition(function positionReceived(p) {
             const latlng = L.latLng(p.coords.latitude, p.coords.longitude);
             map.panTo(latlng);
         });
     } catch (e) {
-        console.log('Geolocation failed - not running in SSL?', e);
+        console.log('Geolocation failed', e);
     }
 
 
