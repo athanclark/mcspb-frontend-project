@@ -38,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Build
-        run: npx vite build
+        run: npx vite build --base mcspb-frontend-project/
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
