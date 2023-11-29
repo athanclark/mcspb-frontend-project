@@ -11,21 +11,35 @@ $(document).ready(function() {
     try {
         navigator.geolocation.getCurrentPosition(function positionReceived(p) {
             const latlng = L.latLng(p.coords.latitude, p.coords.longitude);
-            map.panTo(latlng);
+            assignPoint(latlng);
         });
     } catch (e) {
         console.log('Geolocation failed', e);
     }
 
 
-    const popup = L.popup();
+    map.on('click', function onMapClick(e) {
+        assignPoint(e.latlng);
+    });
 
-    function onMapClick(e) {
+    function assignPoint(latlng) {
+        $('#results .card-content').empty().append($('<em></em>').text('Loading...'));
+        map.panTo(latlng);
+        const popup = L.popup({ autoPan: false });
         popup
-            .setLatLng(e.latlng)
-            .setContent(`You clicked at ${e.latlng.toString()}`)
+            .setLatLng(latlng)
+            .setContent(`Position: ${latlng.toString()}`)
             .openOn(map);
+        const params = {
+            zoom: 18,
+            format: 'json'
+        };
+        let url = `https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}`;
+        for (const k in params) {
+            url += `&${k}=${params[k]}`;
+        }
+        $.get(url, function receivedAddress(address) {
+            $('#nearest-address').empty().append($('<p></p>').text(address.display_name));
+        });
     }
-
-    map.on('click', onMapClick);
 });
