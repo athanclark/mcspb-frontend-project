@@ -11,3 +11,7 @@
     display: inline-block;
     margin: 1em;
 }
+
+.modal.is-active {
+    z-index: 1000;
+}

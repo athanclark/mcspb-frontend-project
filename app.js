@@ -22,6 +22,28 @@ $(document).ready(function() {
         assignPoint(e.latlng);
     });
 
+
+    $('#submit').on('click', function clickedSubmit() {
+        const term = $('#search').val();
+        const url = `https://nominatim.openstreetmap.org/search.php?q=${encodeURI(term)}&format=jsonv2`;
+        $.get(url, function gotSearchResults(results) {
+            $('#search-results .box').empty().append(results.map((x) =>
+                $('<div></div>').addClass('card').append(
+                    $('<div></div>').addClass('card-content').text(x.display_name)
+                ).on('click', function clickedSearchResult() {
+                    $('html').removeClass('is-clipped');
+                    $('#search-results').removeClass('is-active');
+                    $('#search-results .box').empty();
+                    assignPoint(L.latLng(x.lat, x.lon));
+                })
+            ));
+            $('#search-results').addClass('is-active');
+            $('html').addClass('is-clipped');
+            console.log(results);
+        });
+    });
+
+
     function assignPoint(latlng) {
         $('#results .card-content').empty().append($('<em></em>').text('Loading...'));
         map.panTo(latlng);
