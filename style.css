@@ -7,11 +7,31 @@
     margin-bottom: 1em;
 }
 
+#results > .card {
+    background: lightblue;
+}
+
+#weather {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 1em;
+}
+
 #weather > .card {
+    /* Makes each day of weather report horizontal */
     display: inline-block;
-    margin: 1em;
+    /* margin: 1em; */
+}
+
+#weather > .card > .card-content {
+    padding: 1em;
 }
 
 .modal.is-active {
+    /* Makes the modal higher than the map */
     z-index: 1000;
+}
+
+body > canvas:first-child {
+    position: fixed;
 }
