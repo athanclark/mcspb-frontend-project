@@ -47,12 +47,16 @@ export function setupParticles(particlesMaterial) {
 
 export function makeInitialAttrs(camera) {
     return {
+        particlesGroup: {
+            rotation: {
+                z: 0
+            }
+        },
         particles: {
             rotation: {
                 speed: {
                     x: 0,
-                    y: 0
-                }
+                },
             },
             size: 0
         },
@@ -60,8 +64,7 @@ export function makeInitialAttrs(camera) {
             rotation: {
                 speed: {
                     x: 0,
-                    y: 0
-                }
+                },
             },
             size: 0
         },
@@ -107,6 +110,7 @@ export function makeEffects(intendedAttrs) {
         intendedAttrs.clouds.opacity = 0;
         intendedAttrs.clouds.y = 1000;
         intendedAttrs.clouds.yScale = 0.2;
+        intendedAttrs.fog.opacity = 0;
     };
     const partlyCloudy = function partlyCloudy() {
         intendedAttrs.clouds.opacity = 1;
@@ -191,64 +195,56 @@ export function makeEffects(intendedAttrs) {
                 clear();
                 moderatelyCloudy();
                 lightSnow();
-                intendedAttrs.particles.rotation.speed.x = 0.2;
+                intendedAttrs.particles.rotation.speed.x = 0.05;
                 intendedAttrs.particles2.size = 2;
-                intendedAttrs.particles2.rotation.speed.x = 0.2;
+                intendedAttrs.particles2.rotation.speed.x = 0.05;
             },
             rainAndSnow: function rainAndSnow() {
                 clear();
                 moderatelyCloudy();
                 lightRain();
                 intendedAttrs.particles2.size = 2;
-                intendedAttrs.particles2.rotation.speed.x = 0.1;
+                intendedAttrs.particles2.rotation.speed.x = 0.05;
             }
         },
         wind: {
             calm: function calm() {
-                intendedAttrs.particles.rotation.speed.y = 0;
-                intendedAttrs.particles2.rotation.speed.y = 0;
+                intendedAttrs.particlesGroup.rotation.z = 0;
                 intendedAttrs.fog.rotation.speed.y = 0;
                 intendedAttrs.clouds.rotation.speed.y = 0;
             },
             light: function light() {
-                intendedAttrs.particles.rotation.speed.y = 0.1;
-                intendedAttrs.particles2.rotation.speed.y = 0.1;
+                intendedAttrs.particlesGroup.rotation.z = 0.1;
                 intendedAttrs.fog.rotation.speed.y = -0.1;
                 intendedAttrs.clouds.rotation.speed.y = -0.1;
             },
             moderate: function moderate() {
-                intendedAttrs.particles.rotation.speed.y = 0.2;
-                intendedAttrs.particles2.rotation.speed.y = 0.2;
+                intendedAttrs.particlesGroup.rotation.z = 0.2;
                 intendedAttrs.fog.rotation.speed.y = -0.2;
                 intendedAttrs.clouds.rotation.speed.y = -0.2;
             },
             fresh: function fresh() {
-                intendedAttrs.particles.rotation.speed.y = 0.4;
-                intendedAttrs.particles2.rotation.speed.y = 0.4;
+                intendedAttrs.particlesGroup.rotation.z = 0.4;
                 intendedAttrs.fog.rotation.speed.y = -0.4;
                 intendedAttrs.clouds.rotation.speed.y = -0.4;
             },
             strong: function strong() {
-                intendedAttrs.particles.rotation.speed.y = 0.6;
-                intendedAttrs.particles2.rotation.speed.y = 0.6;
+                intendedAttrs.particlesGroup.rotation.z = 0.6;
                 intendedAttrs.fog.rotation.speed.y = -0.6;
                 intendedAttrs.clouds.rotation.speed.y = -0.6;
             },
             gale: function gale() {
-                intendedAttrs.particles.rotation.speed.y = 0.8;
-                intendedAttrs.particles2.rotation.speed.y = 0.8;
+                intendedAttrs.particlesGroup.rotation.z = 0.8;
                 intendedAttrs.fog.rotation.speed.y = -0.8;
                 intendedAttrs.clouds.rotation.speed.y = -0.8;
             },
             storm: function storm() {
-                intendedAttrs.particles.rotation.speed.y = 1;
-                intendedAttrs.particles2.rotation.speed.y = 1;
+                intendedAttrs.particlesGroup.rotation.z = 1;
                 intendedAttrs.fog.rotation.speed.y = -1;
                 intendedAttrs.clouds.rotation.speed.y = -1;
             },
             hurricane: function hurricane() {
-                intendedAttrs.particles.rotation.speed.y = 2;
-                intendedAttrs.particles2.rotation.speed.y = 2;
+                intendedAttrs.particlesGroup.rotation.z = 1.5;
                 intendedAttrs.fog.rotation.speed.y = -2;
                 intendedAttrs.clouds.rotation.speed.y = -2;
             }
@@ -275,21 +271,16 @@ export function makeTimePassed(actualAttrs, intendedAttrs, alteredObjects) {
         actualAttrs.particles.rotation.speed.x +=
             (intendedAttrs.particles.rotation.speed.x - actualAttrs.particles.rotation.speed.x)
             * diffSec;
-        actualAttrs.particles.rotation.speed.y +=
-            (intendedAttrs.particles.rotation.speed.y - actualAttrs.particles.rotation.speed.y)
-            * diffSec;
         actualAttrs.particles2.rotation.speed.x +=
             (intendedAttrs.particles2.rotation.speed.x - actualAttrs.particles2.rotation.speed.x)
-            * diffSec;
-        actualAttrs.particles2.rotation.speed.y +=
-            (intendedAttrs.particles2.rotation.speed.y - actualAttrs.particles2.rotation.speed.y)
             * diffSec;
 
         // Change rotation of particles
         alteredObjects.particles.rotation.x += actualAttrs.particles.rotation.speed.x * diffSec;
-        alteredObjects.particles.rotation.y += actualAttrs.particles.rotation.speed.y * diffSec;
         alteredObjects.particles2.rotation.x += actualAttrs.particles2.rotation.speed.x * diffSec;
-        alteredObjects.particles2.rotation.y += actualAttrs.particles2.rotation.speed.y * diffSec;
+        alteredObjects.particlesGroup.rotation.z +=
+            (intendedAttrs.particlesGroup.rotation.z - alteredObjects.particlesGroup.rotation.z)
+            * diffSec;
 
         // Change size of particles
         actualAttrs.particles.size +=

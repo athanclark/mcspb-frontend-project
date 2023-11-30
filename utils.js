@@ -71,3 +71,15 @@ export function addParamsToURL(url, params) {
     }
     return url;
 };
+
+
+export function normalizeCoords(x) {
+    const latDivisor = Math.floor((x.lat + 90) / 180);
+    const latOffset = -1 * latDivisor * 180;
+    const lngDivisor = Math.floor((x.lng + 180) / 360);
+    const lngOffset = -1 * lngDivisor * 360;
+    return {
+        lat: (x.lat + latOffset),
+        lng: (x.lng + lngOffset)
+    };
+}

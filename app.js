@@ -53,20 +53,22 @@ clouds.scale.y = 0.2;
 clouds.scale.z = 0.5;
 scene.add(clouds);
 
+const particlesGroup = new THREE.Group();
 const particlesMaterial = new THREE.PointsMaterial({
     color: 0xcccccc,
     size: 0
 });
 const particles = G.setupParticles(particlesMaterial);
 particles.position.z -= 1050;
-scene.add(particles);
+particlesGroup.add(particles);
 const particles2Material = new THREE.PointsMaterial({
     color: 0xaaaaaa,
     size: 0
 });
 const particles2 = G.setupParticles(particles2Material);
 particles2.position.z -= 1050;
-scene.add(particles2);
+particlesGroup.add(particles2);
+scene.add(particlesGroup);
 
 let intendedAttrs = G.makeInitialAttrs(camera);
 let actualAttrs = G.makeInitialAttrs(camera);
@@ -77,6 +79,7 @@ const alteredObjects = {
     fog,
     cloudsMaterial,
     clouds,
+    particlesGroup,
     particlesMaterial,
     particles,
     particles2Material,
@@ -84,6 +87,8 @@ const alteredObjects = {
 };
 
 const effects = G.makeEffects(intendedAttrs);
+// effects.precip.lightSnow();
+// effects.wind.fresh();
 
 const timePassed = G.makeTimePassed(actualAttrs, intendedAttrs, alteredObjects);
 const animate = G.makeAnimate(renderer, timePassed, scene, camera);
@@ -128,4 +133,66 @@ window.addEventListener('mousemove', (e) => {
         intendedAttrs.camera.position.y =
             ((e.clientY - (window.innerHeight / 2)) / window.innerHeight) * MAX_Y;
     }
+});
+
+$('#clear-btn').on('click', () => {
+    effects.precip.clear();
+});
+$('#partly-cloudy-btn').on('click', () => {
+    effects.precip.partlyCloudy();
+});
+$('#moderately-cloudy-btn').on('click', () => {
+    effects.precip.moderatelyCloudy();
+});
+$('#cloudy-btn').on('click', () => {
+    effects.precip.cloudy();
+});
+$('#humid-btn').on('click', () => {
+    effects.precip.humid();
+});
+$('#light-rain-btn').on('click', () => {
+    effects.precip.lightRain();
+});
+$('#overcast-showers-btn').on('click', () => {
+    effects.precip.overcastShowers();
+});
+$('#intermittent-showers-btn').on('click', () => {
+    effects.precip.intermittentShowers();
+});
+$('#rain-btn').on('click', () => {
+    effects.precip.rain();
+});
+$('#light-snow-btn').on('click', () => {
+    effects.precip.lightSnow();
+});
+$('#snow-btn').on('click', () => {
+    effects.precip.snow();
+});
+$('#rain-and-snow-btn').on('click', () => {
+    effects.precip.rainAndSnow();
+});
+
+$('#calm-btn').on('click', () => {
+    effects.wind.calm();
+});
+$('#light-btn').on('click', () => {
+    effects.wind.light();
+});
+$('#moderate-btn').on('click', () => {
+    effects.wind.moderate();
+});
+$('#fresh-btn').on('click', () => {
+    effects.wind.fresh();
+});
+$('#strong-btn').on('click', () => {
+    effects.wind.strong();
+});
+$('#gale-btn').on('click', () => {
+    effects.wind.gale();
+});
+$('#storm-btn').on('click', () => {
+    effects.wind.storm();
+});
+$('#hurricane-btn').on('click', () => {
+    effects.wind.hurricane();
 });

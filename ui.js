@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import * as L from 'leaflet';
-import { cToF, windSpeed, weatherTerm, addParamsToURL } from './utils.js';
+import { cToF, windSpeed, weatherTerm, addParamsToURL, normalizeCoords } from './utils.js';
 
 
 // Function that consolidates all the results based on a coordinate `latlng`
@@ -16,9 +16,11 @@ export function assignPoint(map, latlng, effects) {
         .setContent(`Position: ${latlng.toString()}`)
         .openOn(map);
 
-    getNearestAddress(latlng);
-    getWeather(latlng, effects);
-    getSolarData(latlng);
+    const latlngNorm = normalizeCoords(latlng);
+    console.log(latlngNorm);
+    getNearestAddress(latlngNorm);
+    getWeather(latlngNorm, effects);
+    getSolarData(latlngNorm);
 };
 
 export function clickedSubmit(map) {
