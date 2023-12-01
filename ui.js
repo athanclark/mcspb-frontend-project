@@ -24,7 +24,7 @@ export function assignPoint(map, latlng, effects, intendedAttrs) {
     T.updateSolarPosition(latlngNorm, intendedAttrs);
 };
 
-export function clickedSubmit(map) {
+export function clickedSubmit(map, effects, intendedAttrs) {
     const searchTerm = $('#search').val();
     const url = `https://nominatim.openstreetmap.org/search.php?q=${encodeURI(searchTerm)}&format=jsonv2`;
     $.get(url, function gotSearchResults(results) {
@@ -43,7 +43,7 @@ export function clickedSubmit(map) {
                 $('#search-results .box').empty();
                 // Runs `assignPoint()` with the result coordinates, just like selecting one
                 // in the map.
-                assignPoint(map, L.latLng(x.lat, x.lon));
+                assignPoint(map, L.latLng(x.lat, x.lon), effects, intendedAttrs);
             })
         ));
         // After the results are added to the DOM, show the elements via Bulma's

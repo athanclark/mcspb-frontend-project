@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: npx vite build --base mcspb-frontend-project/
       - name: Copy public
-        run: cp -r ./public ./docs/
+        run: mkdir -p ./docs/public/ && cp -r ./public/* ./docs/public/
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

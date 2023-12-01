@@ -135,7 +135,7 @@ $(document).ready(function() {
     map.on('click', (e) => UI.assignPoint(map, e.latlng, effects, intendedAttrs));
 
     // Run a search when the submit button is clicked
-    $('#submit').on('click', () => UI.clickedSubmit(map));
+    $('#submit').on('click', () => UI.clickedSubmit(map, effects, intendedAttrs));
 
 
     G.initiateAnimation(animate, renderer, camera);
