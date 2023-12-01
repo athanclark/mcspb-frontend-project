@@ -1,3 +1,8 @@
+:root {
+    --bg: #fff;
+    --color: #000;
+}
+
 #map {
     aspect-ratio: 16 / 9;
 }
@@ -7,8 +12,8 @@
     margin-bottom: 1em;
 }
 
-#results > .card {
-    background: lightblue;
+#results .card, #results .table {
+    background: var(--bg);
 }
 
 #weather {
@@ -32,6 +37,19 @@
     z-index: 1000;
 }
 
+* {
+    transition: color, background 1s;
+}
+
 body > canvas:first-child {
     position: fixed;
+}
+
+body .title,
+body .subtitle,
+#results .card,
+#results .card-header-title,
+#results .table,
+#results .table thead th {
+    color: var(--color) !important;
 }

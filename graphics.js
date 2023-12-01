@@ -68,6 +68,13 @@ export function makeInitialAttrs(camera) {
             },
             size: 0
         },
+        scene: {
+            background: {
+                hue: 0,
+                saturation: 0,
+                lightness: 1
+            }
+        },
         stars: {
             opacity: 0
         },
@@ -315,6 +322,15 @@ export function makeTimePassed(actualAttrs, intendedAttrs, alteredObjects) {
             (intendedAttrs.clouds.rotation.speed.y - actualAttrs.clouds.rotation.speed.y)
             * diffSec;
         alteredObjects.clouds.rotation.y += actualAttrs.clouds.rotation.speed.y * diffSec;
+
+        // Background
+        let oldHSL = {};
+        alteredObjects.scene.background.getHSL(oldHSL);
+        alteredObjects.scene.background = new THREE.Color().setHSL(
+            oldHSL.h + (intendedAttrs.scene.background.hue - oldHSL.h) * diffSec,
+            oldHSL.s + (intendedAttrs.scene.background.saturation - oldHSL.s) * diffSec,
+            oldHSL.l + (intendedAttrs.scene.background.lightness - oldHSL.l) * diffSec
+        );
     };
 };
 

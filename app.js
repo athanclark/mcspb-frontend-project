@@ -73,6 +73,7 @@ scene.add(particlesGroup);
 let intendedAttrs = G.makeInitialAttrs(camera);
 let actualAttrs = G.makeInitialAttrs(camera);
 const alteredObjects = {
+    scene,
     camera,
     starsMaterial,
     fogMaterial,
