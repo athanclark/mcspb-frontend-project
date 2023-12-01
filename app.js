@@ -19,6 +19,7 @@ const starsMaterial = new THREE.PointsMaterial({
     size: 20,
     fog: false,
     map: starSprite,
+    blending: THREE.AdditiveBlending,
     depthTest: false,
     transparent: true,
     opacity: 0
