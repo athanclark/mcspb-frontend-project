@@ -14,11 +14,10 @@ export function assignPoint(map, latlng, effects, intendedAttrs) {
     const popup = L.popup({ autoPan: false });
     popup
         .setLatLng(latlng)
-        .setContent(`Position: ${latlng.toString()}`)
+        .setContent(`Lat: ${latlng.lat.toFixed(4)}&deg;, Long: ${latlng.lng.toFixed(4)}&deg;`)
         .openOn(map);
 
     const latlngNorm = normalizeCoords(latlng);
-    console.log(latlngNorm);
     getNearestAddress(latlngNorm);
     getWeather(latlngNorm, effects);
     getSolarData(latlngNorm);

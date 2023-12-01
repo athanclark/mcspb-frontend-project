@@ -5,14 +5,16 @@ import { skyColor } from './utils.js';
 export function updateSolarPosition(coords, intendedAttrs) {
     const { sunlight, phase } = getSolarPosition(coords);
     const lightness = (sunlight + 1) / 2;
-    console.log('lightness', lightness);
-    console.log('phase', phase);
+    if (phase < 0.25 || phase > 0.75) {
+        $('#map').css('filter', 'brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7)');
+    } else {
+        $('#map').css('filter', '');
+    }
     const [r,g,b] = skyColor(phase);
     let hsl = {};
     const color = new THREE.Color(r / 256, g / 256, b / 256);
     color.getHSL(hsl);
     color.setHSL(hsl.h, hsl.s, lightness);
-    // color.getHSL(hsl);
     intendedAttrs.scene.background.r = color.r;
     intendedAttrs.scene.background.g = color.g;
     intendedAttrs.scene.background.b = color.b;
