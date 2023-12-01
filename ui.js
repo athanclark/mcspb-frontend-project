@@ -1,12 +1,13 @@
 import $ from 'jquery';
 import * as L from 'leaflet';
 import { cToF, windSpeed, weatherTerm, addParamsToURL, normalizeCoords } from './utils.js';
+import * as T from './time.js';
 
 
 // Function that consolidates all the results based on a coordinate `latlng`
-export function assignPoint(map, latlng, effects) {
+export function assignPoint(map, latlng, effects, scene, intendedAttrs) {
     // Default to "Loading..." while AJAX calls are running
-    $('#results .card-content').empty().append($('<em></em>').text('Loading...'));
+    $('#results .card-content:not(:last-child)').empty().append($('<em></em>').text('Loading...'));
     // Move to the coordinate in the map
     map.panTo(latlng);
     // Creates a popup that shows the position on the map
@@ -21,6 +22,7 @@ export function assignPoint(map, latlng, effects) {
     getNearestAddress(latlngNorm);
     getWeather(latlngNorm, effects);
     getSolarData(latlngNorm);
+    T.updateSolarPosition(latlngNorm, scene, intendedAttrs);
 };
 
 export function clickedSubmit(map) {
@@ -134,6 +136,12 @@ export function getWeather(latlng, effects) {
                 break;
             case 'rainsnow':
                 effects.precip.rainAndSnow();
+                break;
+            case 'ts':
+                // TODO
+                break;
+            case 'tsrain':
+                // TODO
                 break;
             default:
                 throw new Error('Invalid weather code', x);

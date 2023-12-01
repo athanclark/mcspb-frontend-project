@@ -105,14 +105,14 @@ $(document).ready(function() {
     try {
         navigator.geolocation.getCurrentPosition(function positionReceived(p) {
             const latlng = L.latLng(p.coords.latitude, p.coords.longitude);
-            UI.assignPoint(map, latlng, effects);
+            UI.assignPoint(map, latlng, effects, scene, intendedAttrs);
         });
     } catch (e) {
         console.log('Geolocation failed', e);
     }
 
     // Runs `assignPoint()` whenever the user clicks a point on the map
-    map.on('click', (e) => UI.assignPoint(map, e.latlng, effects));
+    map.on('click', (e) => UI.assignPoint(map, e.latlng, effects, scene, intendedAttrs));
 
     // Run a search when the submit button is clicked
     $('#submit').on('click', () => UI.clickedSubmit(map));

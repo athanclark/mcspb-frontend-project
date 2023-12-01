@@ -54,6 +54,10 @@ export function weatherTerm(x) {
         return 'Snow';
     case 'rainsnow':
         return 'Rain and Snow';
+    case 'ts':
+        return 'Thunderstorms';
+    case 'tsrain':
+        return 'Thunderstorms with Rain';
     default:
         throw new Error('Invalid weather code', x);
     }
