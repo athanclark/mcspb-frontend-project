@@ -13,7 +13,7 @@ const scene = G.setupScene();
 const textureLoader = new THREE.TextureLoader();
 
 // Create stars
-const starSprite = textureLoader.load('public/star.png');
+const starSprite = textureLoader.load('./public/star.png');
 const starsMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
     size: 20,
@@ -28,7 +28,7 @@ const stars = G.setupParticles(starsMaterial);
 scene.add(stars);
 
 // Create fog
-const fogSprite = textureLoader.load('public/fog.png');
+const fogSprite = textureLoader.load('./public/fog.png');
 const fogMaterial = new THREE.PointsMaterial({
     size: 100,
     color: 0xcccccc,
@@ -61,7 +61,7 @@ clouds.scale.z = 0.5;
 scene.add(clouds);
 
 // Create both particle sets for precipitation
-const snowSprite = textureLoader.load('public/snow.png');
+const snowSprite = textureLoader.load('./public/snow.png');
 const particlesGroup = new THREE.Group();
 const particlesMaterial = new THREE.PointsMaterial({
     color: 0xcccccc,

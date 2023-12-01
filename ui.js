@@ -77,7 +77,7 @@ export function getWeather(latlng, effects) {
         product: 'civillight',
         output: 'json'
     };
-    const url = 'http://www.7timer.info/bin/api.pl';
+    const url = 'https://www.7timer.info/bin/api.pl';
     $.get(addParamsToURL(url, params), function receivedWeather(weatherString) {
         try {
             const weather = JSON.parse(weatherString);
