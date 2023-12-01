@@ -136,6 +136,14 @@ $(document).ready(function() {
 
     // Run a search when the submit button is clicked
     $('#submit').on('click', () => UI.clickedSubmit(map, effects, intendedAttrs));
+    // Allow the search to be cancelled
+    $('#search-results > button').on('click', () => {
+        // turn off the modal
+        $('html').removeClass('is-clipped');
+        $('#search-results').removeClass('is-active');
+        // empty the results
+        $('#search-results .box').empty();
+    });
 
 
     G.initiateAnimation(animate, renderer, camera);
