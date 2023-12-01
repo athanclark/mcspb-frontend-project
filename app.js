@@ -10,12 +10,16 @@ const renderer = G.setupRenderer();
 const camera = G.setupCamera();
 
 const scene = G.setupScene();
+const textureLoader = new THREE.TextureLoader();
 
 // Create stars
+const starSprite = textureLoader.load('public/star.png');
 const starsMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
-    size: 2,
+    size: 20,
     fog: false,
+    map: starSprite,
+    depthTest: false,
     transparent: true,
     opacity: 0
 });
@@ -23,7 +27,6 @@ const stars = G.setupParticles(starsMaterial);
 scene.add(stars);
 
 // Create fog
-const textureLoader = new THREE.TextureLoader();
 const fogSprite = textureLoader.load('public/fog.png');
 const fogMaterial = new THREE.PointsMaterial({
     size: 100,
