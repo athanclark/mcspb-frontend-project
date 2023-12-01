@@ -135,11 +135,11 @@ export function makeEffects(intendedAttrs) {
         intendedAttrs.clouds.yScale = 0.2;
     };
     const lightRain = function lightRain() {
-        intendedAttrs.particles.size = 2;
+        intendedAttrs.particles.size = 20;
         intendedAttrs.particles.rotation.speed.x = 0.3;
     };
     const lightSnow = function lightSnow() {
-        intendedAttrs.particles.size = 2;
+        intendedAttrs.particles.size = 20;
         intendedAttrs.particles.rotation.speed.x = 0.01;
     };
     return {
@@ -190,7 +190,7 @@ export function makeEffects(intendedAttrs) {
                 moderatelyCloudy();
                 lightSnow();
                 intendedAttrs.particles.rotation.speed.x = 0.6;
-                intendedAttrs.particles2.size = 2;
+                intendedAttrs.particles2.size = 20;
                 intendedAttrs.particles2.rotation.speed.x = 0.6;
             },
             lightSnow: () => {
@@ -203,14 +203,14 @@ export function makeEffects(intendedAttrs) {
                 moderatelyCloudy();
                 lightSnow();
                 intendedAttrs.particles.rotation.speed.x = 0.05;
-                intendedAttrs.particles2.size = 2;
+                intendedAttrs.particles2.size = 20;
                 intendedAttrs.particles2.rotation.speed.x = 0.05;
             },
             rainAndSnow: function rainAndSnow() {
                 clear();
                 moderatelyCloudy();
                 lightRain();
-                intendedAttrs.particles2.size = 2;
+                intendedAttrs.particles2.size = 20;
                 intendedAttrs.particles2.rotation.speed.x = 0.05;
             }
         },

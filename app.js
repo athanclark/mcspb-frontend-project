@@ -57,9 +57,14 @@ clouds.scale.z = 0.5;
 scene.add(clouds);
 
 // Create both particle sets for precipitation
+const snowSprite = textureLoader.load('public/snow.png');
 const particlesGroup = new THREE.Group();
 const particlesMaterial = new THREE.PointsMaterial({
     color: 0xcccccc,
+    map: snowSprite,
+    depthTest: false,
+    transparent: true,
+    opacity: 1,
     size: 0
 });
 const particles = G.setupParticles(particlesMaterial);
@@ -67,6 +72,10 @@ particles.position.z -= 1050;
 particlesGroup.add(particles);
 const particles2Material = new THREE.PointsMaterial({
     color: 0xaaaaaa,
+    map: snowSprite,
+    depthTest: false,
+    transparent: true,
+    opacity: 1,
     size: 0
 });
 const particles2 = G.setupParticles(particles2Material);
