@@ -159,7 +159,7 @@ export function makeEffects(intendedAttrs) {
             },
             humid: function humid() {
                 clear();
-                intendedAttrs.fog.opacity = 1;
+                intendedAttrs.fog.opacity = 0.5;
             },
             lightRain: () => {
                 clear();

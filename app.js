@@ -11,6 +11,7 @@ const camera = G.setupCamera();
 
 const scene = G.setupScene();
 
+// Create stars
 const starsMaterial = new THREE.PointsMaterial({
     color: 0xffffff,
     size: 2,
@@ -21,10 +22,11 @@ const starsMaterial = new THREE.PointsMaterial({
 const stars = G.setupParticles(starsMaterial);
 scene.add(stars);
 
+// Create fog
 const textureLoader = new THREE.TextureLoader();
 const fogSprite = textureLoader.load('public/fog.png');
 const fogMaterial = new THREE.PointsMaterial({
-    size: 50,
+    size: 100,
     color: 0xcccccc,
     map: fogSprite,
     depthTest: false,
@@ -38,6 +40,7 @@ fog.scale.y = 0.5;
 fog.scale.z = 0.5;
 scene.add(fog);
 
+// Create clouds
 const cloudsMaterial = new THREE.PointsMaterial({
     size: 100,
     color: 0xcccccc,
@@ -53,6 +56,7 @@ clouds.scale.y = 0.2;
 clouds.scale.z = 0.5;
 scene.add(clouds);
 
+// Create both particle sets for precipitation
 const particlesGroup = new THREE.Group();
 const particlesMaterial = new THREE.PointsMaterial({
     color: 0xcccccc,
@@ -70,8 +74,10 @@ particles2.position.z -= 1050;
 particlesGroup.add(particles2);
 scene.add(particlesGroup);
 
+// Intended args tracks what "ought to be", actual is "what ought to be right now"
 let intendedAttrs = G.makeInitialAttrs(camera);
 let actualAttrs = G.makeInitialAttrs(camera);
+// Altered objects is the set of real scene objects getting modified
 const alteredObjects = {
     scene,
     camera,

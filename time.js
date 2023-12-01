@@ -16,7 +16,11 @@ export function updateSolarPosition(coords, intendedAttrs) {
     intendedAttrs.scene.background.r = color.r;
     intendedAttrs.scene.background.g = color.g;
     intendedAttrs.scene.background.b = color.b;
-    color.setHSL(hsl.h, hsl.s / 2, lightness < 0.5 ? lightness - 0.05 : lightness + 0.05);
+    color.setHSL(
+        hsl.h,
+        hsl.s / 2,
+        Math.max(0.05, lightness < 0.5 ? lightness - 0.05 : lightness + 0.05)
+    );
     $(':root')
         .css('--bg', `#${color.getHexString()}`)
         .css('--color', lightness < 0.5 ? '#fff' : '#000');
