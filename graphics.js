@@ -70,9 +70,9 @@ export function makeInitialAttrs(camera) {
         },
         scene: {
             background: {
-                hue: 0,
-                saturation: 0,
-                lightness: 1
+                r: 1,
+                g: 1,
+                b: 1
             }
         },
         stars: {
@@ -324,13 +324,19 @@ export function makeTimePassed(actualAttrs, intendedAttrs, alteredObjects) {
         alteredObjects.clouds.rotation.y += actualAttrs.clouds.rotation.speed.y * diffSec;
 
         // Background
-        let oldHSL = {};
-        alteredObjects.scene.background.getHSL(oldHSL);
-        alteredObjects.scene.background = new THREE.Color().setHSL(
-            oldHSL.h + (intendedAttrs.scene.background.hue - oldHSL.h) * diffSec,
-            oldHSL.s + (intendedAttrs.scene.background.saturation - oldHSL.s) * diffSec,
-            oldHSL.l + (intendedAttrs.scene.background.lightness - oldHSL.l) * diffSec
-        );
+        // let oldHSL = {};
+        // alteredObjects.scene.background.getHSL(oldHSL);
+        // alteredObjects.scene.background = new THREE.Color().setHSL(
+        //     oldHSL.h + (intendedAttrs.scene.background.hue - oldHSL.h) * diffSec,
+        //     oldHSL.s + (intendedAttrs.scene.background.saturation - oldHSL.s) * diffSec,
+        //     oldHSL.l + (intendedAttrs.scene.background.lightness - oldHSL.l) * diffSec
+        // );
+        alteredObjects.scene.background.r +=
+            (intendedAttrs.scene.background.r - alteredObjects.scene.background.r) * diffSec;
+        alteredObjects.scene.background.g +=
+            (intendedAttrs.scene.background.g - alteredObjects.scene.background.g) * diffSec;
+        alteredObjects.scene.background.b +=
+            (intendedAttrs.scene.background.b - alteredObjects.scene.background.b) * diffSec;
     };
 };
 

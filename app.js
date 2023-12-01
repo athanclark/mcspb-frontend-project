@@ -106,14 +106,14 @@ $(document).ready(function() {
     try {
         navigator.geolocation.getCurrentPosition(function positionReceived(p) {
             const latlng = L.latLng(p.coords.latitude, p.coords.longitude);
-            UI.assignPoint(map, latlng, effects, scene, intendedAttrs);
+            UI.assignPoint(map, latlng, effects, intendedAttrs);
         });
     } catch (e) {
         console.log('Geolocation failed', e);
     }
 
     // Runs `assignPoint()` whenever the user clicks a point on the map
-    map.on('click', (e) => UI.assignPoint(map, e.latlng, effects, scene, intendedAttrs));
+    map.on('click', (e) => UI.assignPoint(map, e.latlng, effects, intendedAttrs));
 
     // Run a search when the submit button is clicked
     $('#submit').on('click', () => UI.clickedSubmit(map));
@@ -136,64 +136,28 @@ window.addEventListener('mousemove', (e) => {
     }
 });
 
-$('#clear-btn').on('click', () => {
-    effects.precip.clear();
-});
-$('#partly-cloudy-btn').on('click', () => {
-    effects.precip.partlyCloudy();
-});
-$('#moderately-cloudy-btn').on('click', () => {
-    effects.precip.moderatelyCloudy();
-});
-$('#cloudy-btn').on('click', () => {
-    effects.precip.cloudy();
-});
-$('#humid-btn').on('click', () => {
-    effects.precip.humid();
-});
-$('#light-rain-btn').on('click', () => {
-    effects.precip.lightRain();
-});
-$('#overcast-showers-btn').on('click', () => {
-    effects.precip.overcastShowers();
-});
-$('#intermittent-showers-btn').on('click', () => {
-    effects.precip.intermittentShowers();
-});
-$('#rain-btn').on('click', () => {
-    effects.precip.rain();
-});
-$('#light-snow-btn').on('click', () => {
-    effects.precip.lightSnow();
-});
-$('#snow-btn').on('click', () => {
-    effects.precip.snow();
-});
-$('#rain-and-snow-btn').on('click', () => {
-    effects.precip.rainAndSnow();
-});
-
-$('#calm-btn').on('click', () => {
-    effects.wind.calm();
-});
-$('#light-btn').on('click', () => {
-    effects.wind.light();
-});
-$('#moderate-btn').on('click', () => {
-    effects.wind.moderate();
-});
-$('#fresh-btn').on('click', () => {
-    effects.wind.fresh();
-});
-$('#strong-btn').on('click', () => {
-    effects.wind.strong();
-});
-$('#gale-btn').on('click', () => {
-    effects.wind.gale();
-});
-$('#storm-btn').on('click', () => {
-    effects.wind.storm();
-});
-$('#hurricane-btn').on('click', () => {
-    effects.wind.hurricane();
+// Bind to buttons
+[
+    ['#clear-btn', effects.precip.clear],
+    ['#partly-cloudy-btn', effects.precip.partlyCloudy],
+    ['#moderately-cloudy-btn', effects.precip.moderatelyCloudy],
+    ['#cloudy-btn', effects.precip.cloudy],
+    ['#humid-btn', effects.precip.humid],
+    ['#light-rain-btn', effects.precip.lightRain],
+    ['#overcast-showers-btn', effects.precip.overcastShowers],
+    ['#intermittent-showers-btn', effects.precip.intermittentShowers],
+    ['#rain-btn', effects.precip.rain],
+    ['#light-snow-btn', effects.precip.lightSnow],
+    ['#snow-btn', effects.precip.snow],
+    ['#rain-and-snow-btn', effects.precip.rainAndSnow],
+    ['#calm-btn', effects.wind.calm],
+    ['#light-btn', effects.wind.light],
+    ['#moderate-btn', effects.wind.moderate],
+    ['#fresh-btn', effects.wind.fresh],
+    ['#strong-btn', effects.wind.strong],
+    ['#gale-btn', effects.wind.gale],
+    ['#storm-btn', effects.wind.storm],
+    ['#hurricane-btn', effects.wind.hurricane]
+].forEach(([id,f]) => {
+    $(id).on('click', () => { f(); });
 });

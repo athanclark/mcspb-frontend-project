@@ -1,20 +1,27 @@
 import * as THREE from 'three';
 import $ from 'jquery';
+import { skyColor } from './utils.js';
 
-export function updateSolarPosition(coords, scene, intendedAttrs) {
+export function updateSolarPosition(coords, intendedAttrs) {
     const { sunlight, phase } = getSolarPosition(coords);
     const lightness = (sunlight + 1) / 2;
     console.log('lightness', lightness);
-    const color = new THREE.Color().setHSL(0, 0, lightness);
-    // scene.background = color;
-    // scene.fog = new THREE.Fog(color.getHex(), 1, 700);
-    intendedAttrs.scene.background.lightness = lightness;
-    const starOpacity = Math.min(1, Math.max(0, 1 - (lightness * 2)));
-    console.log('starOpacity', starOpacity);
-    intendedAttrs.stars.opacity = starOpacity;
+    console.log('phase', phase);
+    const [r,g,b] = skyColor(phase);
+    let hsl = {};
+    const color = new THREE.Color(r / 256, g / 256, b / 256);
+    color.getHSL(hsl);
+    color.setHSL(hsl.h, hsl.s, lightness);
+    // color.getHSL(hsl);
+    intendedAttrs.scene.background.r = color.r;
+    intendedAttrs.scene.background.g = color.g;
+    intendedAttrs.scene.background.b = color.b;
+    color.setHSL(hsl.h, hsl.s / 2, lightness < 0.5 ? lightness - 0.05 : lightness + 0.05);
     $(':root')
         .css('--bg', `#${color.getHexString()}`)
         .css('--color', lightness < 0.5 ? '#fff' : '#000');
+    const starOpacity = Math.min(1, Math.max(0, 1 - (lightness * 2)));
+    intendedAttrs.stars.opacity = starOpacity;
 }
 
 

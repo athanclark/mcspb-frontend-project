@@ -5,7 +5,7 @@ import * as T from './time.js';
 
 
 // Function that consolidates all the results based on a coordinate `latlng`
-export function assignPoint(map, latlng, effects, scene, intendedAttrs) {
+export function assignPoint(map, latlng, effects, intendedAttrs) {
     // Default to "Loading..." while AJAX calls are running
     $('#results .card-content:not(:last-child)').empty().append($('<em></em>').text('Loading...'));
     // Move to the coordinate in the map
@@ -22,7 +22,7 @@ export function assignPoint(map, latlng, effects, scene, intendedAttrs) {
     getNearestAddress(latlngNorm);
     getWeather(latlngNorm, effects);
     getSolarData(latlngNorm);
-    T.updateSolarPosition(latlngNorm, scene, intendedAttrs);
+    T.updateSolarPosition(latlngNorm, intendedAttrs);
 };
 
 export function clickedSubmit(map) {

@@ -87,3 +87,43 @@ export function normalizeCoords(x) {
         lng: (x.lng + lngOffset)
     };
 }
+
+
+export function linearInterpolate(lo, hi, x) {
+    return ((hi - lo) * x) + lo;
+}
+
+export function skyColor(phase) {
+    let stops = [
+        [0, [0x1f, 0x14, 0x45]],
+        [.2, [0x61, 0x2d, 0x4a]],
+        [.23, [0x93, 0x49, 0x12]],
+        [.32, [0x8a, 0x71, 0x34]],
+        [.42, [0x9d, 0xca, 0xe7]],
+        [.56, [0xbd, 0xd8, 0xe9]],
+        [.75, [0x30, 0x84, 0xb9]],
+        [.8, [0x87, 0x2e, 0xa6]],
+        [.85, [0x4b, 0x1a, 0x93]],
+        [.93, [0x1f, 0x14, 0x45]],
+    ];
+    // makes gradient continuous at the end
+    stops.push([1, stops[0][1]]);
+    let firstStop = stops[0];
+    let secondStop;
+    for (const stop of stops) {
+        if (firstStop) {
+            if (phase <= stop[0]) {
+                secondStop = stop;
+                break;
+            } else {
+                firstStop = stop;
+            }
+        }
+    }
+    const internalPhase = (phase - firstStop[0]) / (secondStop[0] - firstStop[0]);
+    return [
+        linearInterpolate(firstStop[1][0], secondStop[1][0], internalPhase),
+        linearInterpolate(firstStop[1][1], secondStop[1][1], internalPhase),
+        linearInterpolate(firstStop[1][2], secondStop[1][2], internalPhase)
+    ];
+}
