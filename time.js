@@ -6,7 +6,7 @@ export function updateSolarPosition(coords, intendedAttrs) {
     const { sunlight, phase } = getSolarPosition(coords);
     const lightness = (sunlight + 1) / 2;
     if (phase < 0.25 || phase > 0.75) {
-        $('#map').css('filter', 'brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7)');
+        $('#map').css('filter', 'brightness(0.6) invert(1) contrast(3) hue-rotate(270deg) saturate(0.3) brightness(0.7)');
     } else {
         $('#map').css('filter', '');
     }
